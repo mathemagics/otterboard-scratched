@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 import { Madoka } from 'react-native-textinput-effects';
 import { Button, Spinner } from './common';
 
@@ -61,4 +62,9 @@ const styles = {
   }
 };
 
-export default LoginForm;
+const mapStateToProps = ({ auth }) => {
+  const { email, password } = auth;
+  return { email, password };
+};
+
+export default connect(mapStateToProps, {})(LoginForm);
