@@ -3,8 +3,18 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { Madoka } from 'react-native-textinput-effects';
 import { Button, Spinner } from './common';
+import {
+  emailChanged,
+  passwordChanged,
+} from '../actions';
 
 class LoginForm extends Component {
+  onEmailChange(text) {
+    this.props.emailChanged(text);
+  }
+  onPasswordChange(text) {
+    this.props.passwordChanged(text);
+  }
   renderLoginButton() {
     return this.props.loading ?
       <Spinner size="large" /> :
@@ -19,7 +29,7 @@ class LoginForm extends Component {
         <View style={inputStyle}>
           <Madoka
             label={'Email'}
-            // this is used as active and passive border color
+            onChangeText={this.onEmailChange.bind(this)}
             borderColor={'#aee2c9'}
             containerStyle={{ width: 200 }}
             labelStyle={{ color: '#008445' }}
@@ -30,7 +40,7 @@ class LoginForm extends Component {
         <View style={inputStyle}>
           <Madoka
             label={'Password'}
-            // this is used as active and passive border color
+            onChangeText={this.onPasswordChange.bind(this)}
             borderColor={'#aee2c9'}
             containerStyle={{ width: 200 }}
             labelStyle={{ color: '#008445' }}
@@ -67,4 +77,7 @@ const mapStateToProps = ({ auth }) => {
   return { email, password };
 };
 
-export default connect(mapStateToProps, {})(LoginForm);
+export default connect(
+  mapStateToProps,
+  { emailChanged, passwordChanged }
+)(LoginForm);
