@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Madoka } from 'react-native-textinput-effects';
 import { Button, Spinner } from './common';
@@ -56,7 +56,8 @@ class LoginForm extends Component {
             secureTextEntry
           />
         </View>
-        <View style={{ height: 45, top: 30 }}>
+        <View style={{ height: 60, top: 30 }}>
+          <Text style={{ backgroundColor: '#fff' }}>{this.props.errors}</Text>
           {/* show spinner if loading, otherwise button */}
           {this.renderSigninButton()}
         </View>
