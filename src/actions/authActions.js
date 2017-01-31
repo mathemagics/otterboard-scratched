@@ -4,7 +4,7 @@ import { AsyncStorage } from 'react-native';
 import {
   EMAIL_CHANGED,
   PASSWORD_CHANGED,
-  // SIGNIN_ATTEMPT,
+  SIGNIN_ATTEMPT,
   SIGNIN_USER_SUCCESS,
   SIGNIN_USER_FAIL
 } from './types';
@@ -24,12 +24,16 @@ export const passwordChanged = (text) => ({
 
 export const signinUser = ({ email, password }) => (
   dispatch => {
-    axios.post(`${ROOT_URL}/signup`, { email, password })
+    dispatch({ type: SIGNIN_ATTEMPT });
+    console.log(email, password);
+    axios.post(`${ROOT_URL}/signin`, { email, password })
     .then((response) => {
       dispatch({ type: SIGNIN_USER_SUCCESS });
       AsyncStorage.setItem(JWT_TOKEN, response.data.token);
+      console.log('then', response);
     })
-    .catch(response => {
+    .catch(({ response }) => {
+      console.log('catch', response);
       dispatch({
         type: SIGNIN_USER_FAIL,
         payload: response.data.error,

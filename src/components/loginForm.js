@@ -6,6 +6,7 @@ import { Button, Spinner } from './common';
 import {
   emailChanged,
   passwordChanged,
+  signinUser,
 } from '../actions';
 
 class LoginForm extends Component {
@@ -15,10 +16,17 @@ class LoginForm extends Component {
   onPasswordChange(text) {
     this.props.passwordChanged(text);
   }
-  renderLoginButton() {
+  onSigninPress() {
+    const { email, password } = this.props;
+    // console.log(email.toLowerCase());
+    // const lower = email.toLowerCase();
+    // const lowerEmail = email.toLowerCase();
+    this.props.signinUser({ email, password });
+  }
+  renderSigninButton() {
     return this.props.loading ?
       <Spinner size="large" /> :
-      <Button>
+      <Button onPress={this.onSigninPress.bind(this)}>
         Sign In
       </Button>;
   }
@@ -50,7 +58,7 @@ class LoginForm extends Component {
         </View>
         <View style={{ height: 45, top: 30 }}>
           {/* show spinner if loading, otherwise button */}
-          {this.renderLoginButton()}
+          {this.renderSigninButton()}
         </View>
       </View>
     );
@@ -73,11 +81,11 @@ const styles = {
 };
 
 const mapStateToProps = ({ auth }) => {
-  const { email, password } = auth;
-  return { email, password };
+  const { email, password, loading, errors } = auth;
+  return { email, password, loading, errors };
 };
 
 export default connect(
   mapStateToProps,
-  { emailChanged, passwordChanged }
+  { emailChanged, passwordChanged, signinUser }
 )(LoginForm);
