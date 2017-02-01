@@ -1,6 +1,7 @@
 import React from 'react';
 import { Router, Scene } from 'react-native-router-flux';
 import LoginForm from './components/loginForm';
+import MainMenu from './components/mainMenu';
 
 const RouterComponent = () => (
   <Router
@@ -18,10 +19,19 @@ const RouterComponent = () => (
         component={LoginForm}
         title="Please Login"
         initial
-        sceneStyle={{ backgroundColor: '#1A3461' }}
+        sceneStyle={{ backgroundColor: '#fff' }}
       />
     </Scene>
-  </Router>
+    <Scene key='main'>
+      <Scene
+        initial
+        key='menu'
+        component={MainMenu}
+        title="Main Menu"
+        sceneStyle={{ backgroundColor: '#fff' }}
+      />
+    </Scene>
+</Router>
 );
 
 

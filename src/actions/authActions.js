@@ -1,5 +1,7 @@
-import axios from 'axios';
 import { AsyncStorage } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+import axios from 'axios';
+
 
 import {
   EMAIL_CHANGED,
@@ -25,15 +27,16 @@ export const passwordChanged = (text) => ({
 export const signinUser = ({ email, password }) => (
   dispatch => {
     dispatch({ type: SIGNIN_ATTEMPT });
-    console.log(email, password);
     axios.post(`${ROOT_URL}/signin`, { email, password })
     .then((response) => {
-      dispatch({ type: SIGNIN_USER_SUCCESS });
-      AsyncStorage.setItem(JWT_TOKEN, response.data.token);
       console.log('then', response);
+      // save JWT TOKEN in async
+      AsyncStorage.setItem(JWT_TOKEN, response.data.token);
+      dispatch({ type: SIGNIN_USER_SUCCESS });
+      // route to main screen
+      Actions.main();
     })
     .catch(({ response }) => {
-      console.log('catch', response);
       dispatch({
         type: SIGNIN_USER_FAIL,
         payload: response.data.error,
